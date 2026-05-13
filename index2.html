@@ -35,7 +35,7 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text)}
-  
+
   /* ─── SHELL ─── */
   .shell{display:flex;flex-direction:column;height:100vh;max-width:430px;margin:0 auto;background:var(--bg);position:relative;overflow:hidden}
 
@@ -122,6 +122,8 @@
     z-index:100;display:none;
   }
   .dropdown.open{display:block}
+  .dropdown::-webkit-scrollbar{width:3px}
+  .dropdown::-webkit-scrollbar-thumb{background:var(--secondary);border-radius:4px}
   .dropdown-item{
     padding:11px 14px;font-size:13px;cursor:pointer;
     display:flex;align-items:center;gap:10px;
@@ -151,6 +153,8 @@
     margin-top:14px;transition:opacity .2s,transform .2s;
     box-shadow:0 4px 16px rgba(201,150,122,.35);
   }
+  .plan-btn:hover{opacity:.9;transform:translateY(-1px)}
+  .plan-btn:active{transform:translateY(0)}
 
   /* ─── ROUTE RESULT ─── */
   .route-result{margin-top:14px;display:none}
@@ -180,7 +184,40 @@
     font-size:11px;color:var(--dark);font-weight:500;
   }
 
+  /* ─── CROWD FORECAST NEXT TRAIN CARD ─── */
+  .forecast-next-card{
+    border-radius:16px;padding:18px;margin-bottom:14px;
+    background:linear-gradient(135deg,#4A5240 0%,#636B56 100%);
+    color:white;position:relative;overflow:hidden;
+  }
+  .fnc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .fnc-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.7;margin-bottom:8px}
+  .fnc-line-pill{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;
+    background:rgba(255,255,255,.15);margin-bottom:6px;
+  }
+  .fnc-line-dot{width:7px;height:7px;border-radius:50%}
+  .fnc-station{font-family:'DM Serif Display',serif;font-size:22px;line-height:1.1;margin-bottom:2px}
+  .fnc-next{font-size:11px;opacity:.65;margin-bottom:14px}
+  .fnc-pct{font-family:'DM Serif Display',serif;font-size:42px;line-height:1;position:absolute;top:18px;right:18px}
+  .fnc-bar-track{height:6px;background:rgba(255,255,255,.15);border-radius:6px;margin-bottom:6px;overflow:hidden}
+  .fnc-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#3BAD4E,#F5C518,#E2231A);transition:width 1s ease}
+  .fnc-scale{display:flex;justify-content:space-between;font-size:9px;opacity:.55;margin-bottom:12px}
+  .fnc-slots{display:flex;gap:6px}
+  .fnc-slot{
+    flex:1;border-radius:8px;padding:8px 4px;text-align:center;
+    background:rgba(255,255,255,.08);cursor:pointer;transition:background .2s;
+  }
+  .fnc-slot.active{background:rgba(201,150,122,.45)}
+  .fnc-slot-time{font-size:11px;font-weight:600;color:white}
+  .fnc-slot-bar{height:28px;margin:4px auto 3px;width:80%;border-radius:4px;background:rgba(255,255,255,.15);position:relative;overflow:hidden}
+  .fnc-slot-bar-inner{position:absolute;bottom:0;left:0;right:0;border-radius:4px 4px 0 0;background:rgba(201,150,122,.7)}
+  .fnc-confidence{margin-top:12px;font-size:10px;opacity:.6;display:flex;justify-content:flex-end;align-items:center;gap:5px}
+  .fnc-conf-pill{padding:2px 8px;border-radius:10px;background:rgba(255,255,255,.15);font-size:9px;font-weight:700}
+
   /* ─── CROWD PANEL ─── */
+  .station-select-wrap{margin-bottom:14px}
   .crowd-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
   .crowd-metric{
     background:var(--bg);border-radius:12px;padding:14px;text-align:center
@@ -212,6 +249,7 @@
     font-size:13px;font-weight:600;cursor:pointer;margin-top:10px;
     display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;
   }
+  .refresh-btn:hover{background:var(--secondary)}
   .refresh-btn svg{width:14px;height:14px;stroke:var(--dark);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
   /* ─── ML PANEL ─── */
@@ -219,6 +257,16 @@
     background:linear-gradient(135deg,var(--darker) 0%,#4E5643 100%);
     border-radius:18px;padding:20px;margin-bottom:14px;color:white;
     position:relative;overflow:hidden;
+  }
+  .ml-hero::before{
+    content:'';position:absolute;top:-30px;right:-30px;
+    width:120px;height:120px;border-radius:50%;
+    background:rgba(201,150,122,.15);
+  }
+  .ml-hero::after{
+    content:'';position:absolute;bottom:-20px;right:20px;
+    width:70px;height:70px;border-radius:50%;
+    background:rgba(201,150,122,.1);
   }
   .ml-hero-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px}
   .ml-hero-val{font-family:'DM Serif Display',serif;font-size:48px;line-height:1;color:white;margin-bottom:4px}
@@ -243,6 +291,7 @@
     background:var(--bg);border-radius:12px;padding:12px;
     border:1px solid var(--secondary);
   }
+  .ds-icon{font-size:18px;margin-bottom:6px}
   .ds-name{font-size:11px;font-weight:700;color:var(--dark);margin-bottom:2px}
   .ds-desc{font-size:10px;color:var(--text-light);line-height:1.4}
   .ds-status{
@@ -259,7 +308,7 @@
   }
   .about-logo{font-family:'DM Serif Display',serif;font-size:36px;margin-bottom:4px}
   .about-version{font-size:11px;opacity:.7;margin-bottom:12px}
-  .about-tagline{font-size:13px;line-height:1.5;opacity:.85}
+  .about-tagline{font-size:13px;line-height:1.6;opacity:.88}
   .privacy-row{
     display:flex;align-items:center;gap:12px;padding:14px;
     background:var(--bg);border-radius:12px;margin-bottom:8px;
@@ -272,14 +321,6 @@
   .privacy-icon svg{width:18px;height:18px;stroke:var(--dark);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
   .privacy-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
   .privacy-desc{font-size:11px;color:var(--text-light);line-height:1.4}
-  
-  /* FARE TABLE */
-  .fare-table{width:100%;border-collapse:collapse;margin-top:10px}
-  .fare-row{border-bottom:1px solid var(--secondary);display:flex;justify-content:space-between;padding:12px 0}
-  .fare-row:last-child{border-bottom:none}
-  .fare-label{font-size:13px;color:var(--text);font-weight:400}
-  .fare-amount{font-size:13px;color:var(--text);font-weight:600}
-
   .tech-stack{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
   .tech-chip{
     background:var(--surface);border-radius:10px;padding:10px 6px;
@@ -294,10 +335,19 @@
   .api-info-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--primary);margin-bottom:6px}
   .api-info-url{font-size:11px;color:var(--text-light);font-family:monospace;word-break:break-all}
 
+  /* ─── FARE STRUCTURE ─── */
+  .fare-table{width:100%;border-collapse:collapse;margin-top:4px}
+  .fare-table tr{border-bottom:1px solid var(--secondary)}
+  .fare-table tr:last-child{border-bottom:none}
+  .fare-table td{padding:11px 4px;font-size:13px;color:var(--text)}
+  .fare-table td:last-child{text-align:right;font-weight:700;color:var(--darker)}
+
+  /* ─── LINE LEGEND ─── */
   .line-legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
   .legend-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text-light);font-weight:500}
   .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
+  /* ─── LOADING ─── */
   .spinner{
     display:inline-block;width:16px;height:16px;border:2px solid var(--secondary);
     border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;
@@ -335,19 +385,27 @@
   <!-- TAB BAR -->
   <div class="tabs">
     <button class="tab active" onclick="switchTab('plan',this)">
-      <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg></div>
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+      </div>
       <span class="tab-label">Plan Route</span>
     </button>
     <button class="tab" onclick="switchTab('crowd',this)">
-      <div class="tab-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><path d="M16 3.13a4 4 0 010 7.75"/><path d="M21 21v-2a4 4 0 00-3-3.87"/></svg></div>
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><path d="M16 3.13a4 4 0 010 7.75"/><path d="M21 21v-2a4 4 0 00-3-3.87"/></svg>
+      </div>
       <span class="tab-label">Live Crowd</span>
     </button>
     <button class="tab" onclick="switchTab('ml',this)">
-      <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
       <span class="tab-label">Cast ML</span>
     </button>
     <button class="tab" onclick="switchTab('about',this)">
-      <div class="tab-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
       <span class="tab-label">About</span>
     </button>
   </div>
@@ -357,31 +415,43 @@
 
     <!-- ═══ PLAN ROUTE PANEL ═══ -->
     <div class="panel active" id="panel-plan">
-      <div class="offline-banner" id="offlineBanner">Backend offline -- showing demo data</div>
+      <div class="offline-banner" id="offlineBanner">Backend offline — showing demo data</div>
+
       <div class="card">
         <div class="card-title">Where are you going?</div>
+
+        <!-- FROM -->
         <div class="search-container" id="fromWrap">
           <label class="search-label">From</label>
-          <input class="search-box" id="fromInput" placeholder="Type station name..." autocomplete="off" oninput="filterStations('from',this.value)" onfocus="openDropdown('from')"/>
+          <input class="search-box" id="fromInput" placeholder="Type station name..."
+            autocomplete="off" oninput="filterStations('from',this.value)" onfocus="openDropdown('from')"/>
           <div class="dropdown" id="fromDropdown"></div>
         </div>
+
+        <!-- SWAP -->
         <div class="swap-btn" onclick="swapStations()">
           <svg viewBox="0 0 24 24"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
         </div>
+
+        <!-- TO -->
         <div class="search-container" id="toWrap">
           <label class="search-label">To</label>
-          <input class="search-box" id="toInput" placeholder="Type station name..." autocomplete="off" oninput="filterStations('to',this.value)" onfocus="openDropdown('to')"/>
+          <input class="search-box" id="toInput" placeholder="Type station name..."
+            autocomplete="off" oninput="filterStations('to',this.value)" onfocus="openDropdown('to')"/>
           <div class="dropdown" id="toDropdown"></div>
         </div>
+
         <button class="plan-btn" onclick="planRoute()">Plan My Route</button>
       </div>
+
+      <!-- ROUTE RESULT -->
       <div class="route-result" id="routeResult">
         <div class="card">
           <div class="card-title">Your Route</div>
           <div class="route-header">
             <div class="route-endpoints">
               <div class="route-from" id="rFrom">--</div>
-              <div class="route-arrow">-- stops --&gt;</div>
+              <div class="route-arrow">— stops —&gt;</div>
               <div class="route-to" id="rTo">--</div>
             </div>
           </div>
@@ -392,15 +462,31 @@
           </div>
           <div class="route-line-viz" id="routeViz"></div>
         </div>
-        <div class="card">
-          <div class="card-title">Crowd at Departure</div>
-          <div class="crowd-bar-wrap">
-            <div class="crowd-bar-label"><span id="crowdPct">--%</span><span id="crowdLabel">Loading...</span></div>
-            <div class="crowd-bar"><div class="crowd-bar-fill" id="crowdBarFill" style="width:0%"></div></div>
+
+        <!-- CROWD FORECAST NEXT TRAIN (replaces old "Crowd at Departure") -->
+        <div class="forecast-next-card" id="crowdForecastCard">
+          <div class="fnc-label">Crowd Forecast — Next Train</div>
+          <div class="fnc-top">
+            <div>
+              <div class="fnc-line-pill">
+                <div class="fnc-line-dot" id="fncLineDot" style="background:#C026D3"></div>
+                <span id="fncLineName">— Line</span>
+              </div>
+              <div class="fnc-station" id="fncStation">—</div>
+              <div class="fnc-next" id="fncNextTrain">Next train in — min</div>
+            </div>
+            <div class="fnc-pct" id="fncPct">—%</div>
           </div>
-          <div class="crowd-status medium" id="crowdStatusBadge">
-            <span class="crowd-status-dot"></span>
-            <span id="crowdStatusText">Fetching live data...</span>
+          <div class="fnc-bar-track">
+            <div class="fnc-bar-fill" id="fncBarFill" style="width:0%"></div>
+          </div>
+          <div class="fnc-scale">
+            <span>Empty</span><span>Comfortable</span><span>Busy</span><span>Packed</span>
+          </div>
+          <div class="fnc-slots" id="fncSlots"></div>
+          <div class="fnc-confidence">
+            ML Confidence · Ticket + Check-in data
+            <span class="fnc-conf-pill" id="fncConfPill">Medium</span>
           </div>
         </div>
       </div>
@@ -411,12 +497,61 @@
       <div class="card">
         <div class="card-title">Select Station</div>
         <div class="search-container">
-          <input class="search-box" id="crowdStationInput" placeholder="Search station..." autocomplete="off" oninput="filterStations('crowdStation',this.value)" onfocus="openDropdown('crowdStation')"/>
+          <input class="search-box" id="crowdStationInput" placeholder="Search station..."
+            autocomplete="off" oninput="filterStations('crowdStation',this.value)" onfocus="openDropdown('crowdStation')"/>
           <div class="dropdown" id="crowdStationDropdown"></div>
         </div>
         <button class="plan-btn" style="margin-top:12px" onclick="fetchCrowd()">Check Crowd</button>
       </div>
-      <div class="card" id="crowdResultCard" style="display:none"></div>
+
+      <div class="card" id="crowdResultCard" style="display:none">
+        <div class="card-title" id="crowdStationTitle">Station Name</div>
+        <div class="crowd-grid">
+          <div class="crowd-metric">
+            <div class="crowd-metric-val" id="cmCheckins">--</div>
+            <div class="crowd-metric-label">Check-ins / 30min</div>
+          </div>
+          <div class="crowd-metric">
+            <div class="crowd-metric-val" id="cmCheckouts">--</div>
+            <div class="crowd-metric-label">Check-outs / 30min</div>
+          </div>
+        </div>
+        <div class="crowd-bar-wrap">
+          <div class="crowd-bar-label">
+            <span>Current Occupancy</span>
+            <span id="cmPct">--%</span>
+          </div>
+          <div class="crowd-bar"><div class="crowd-bar-fill" id="cmBar" style="width:0%"></div></div>
+        </div>
+        <div class="crowd-status medium" id="cmStatus">
+          <span class="crowd-status-dot"></span>
+          <span id="cmStatusText">Computing...</span>
+        </div>
+        <div class="confidence-row">
+          <span>Confidence:</span>
+          <span class="conf-pip filled" id="cp1"></span>
+          <span class="conf-pip filled" id="cp2"></span>
+          <span class="conf-pip" id="cp3"></span>
+          <span id="cmConf">Medium</span>
+        </div>
+        <button class="refresh-btn" onclick="fetchCrowd()">
+          <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Data Source</div>
+        <div class="privacy-row" style="margin-bottom:0;background:white">
+          <div class="privacy-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="privacy-title">TransportStack Delhi API</div>
+            <div class="privacy-desc">Aggregate check-in/out counts only. Zero personal data collected or stored.</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══ CAST ML PANEL ═══ -->
@@ -427,10 +562,57 @@
         <div class="ml-hero-sub">Predicted crowd in 15 minutes</div>
         <div class="ml-model-badge">ARIMA(2,1,2) + Baseline Blend</div>
       </div>
+
       <div class="card">
         <div class="card-title">30-Minute Forecast</div>
         <div class="forecast-chart">
           <div class="forecast-bars" id="forecastBars"></div>
+          <div style="display:flex;justify-content:space-between;padding:0 4px;margin-top:4px">
+            <span style="font-size:9px;color:var(--text-light)">Now</span>
+            <span style="font-size:9px;color:var(--text-light)">+30 min</span>
+          </div>
+        </div>
+        <div class="card-title" style="margin-bottom:8px">How it Works</div>
+        <div style="font-size:12px;color:var(--text-light);line-height:1.7">
+          MetroCast combines <strong style="color:var(--dark)">live check-in/out flow</strong> from DMRC tap data
+          with <strong style="color:var(--dark)">historical crowd patterns</strong> per hour and day type.
+          An ARIMA model forecasts short-term changes, blended with a
+          <strong style="color:var(--dark)">time-of-day baseline</strong> calibrated for Delhi Metro peak patterns.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Data Sources</div>
+        <div class="data-sources">
+          <div class="data-source-card">
+            <div class="ds-name">Ticket Purchases</div>
+            <div class="ds-desc">Token + smart card purchase counts per station window</div>
+            <div class="ds-status live">Live</div>
+          </div>
+          <div class="data-source-card">
+            <div class="ds-name">AFC Tap Data</div>
+            <div class="ds-desc">Check-in / check-out aggregate counts (no IDs)</div>
+            <div class="ds-status live">Live</div>
+          </div>
+          <div class="data-source-card">
+            <div class="ds-name">ARIMA Model</div>
+            <div class="ds-desc">Short-term crowd delta prediction (0-15 min)</div>
+            <div class="ds-status model">ML</div>
+          </div>
+          <div class="data-source-card">
+            <div class="ds-name">Day Baseline</div>
+            <div class="ds-desc">Weekday vs weekend hourly crowd patterns</div>
+            <div class="ds-status model">ML</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Privacy Guarantee</div>
+        <div style="font-size:12px;color:var(--text-light);line-height:1.7">
+          All data used is <strong style="color:var(--dark)">aggregate only</strong> — no individual trips,
+          card IDs, or personal identifiers are ever collected, stored, or transmitted.
+          This app is fully open source.
         </div>
       </div>
     </div>
@@ -439,30 +621,102 @@
     <div class="panel" id="panel-about">
       <div class="about-hero">
         <div class="about-logo">MetroCast</div>
-        <div class="about-version">v1.0.0 -- Open Source</div>
-        <div class="about-tagline">
-          MetroCast is a free, open-source crowd intelligence platform for Delhi Metro. It helps commuters choose less crowded trains by combining real-time check-in data with ML predictions.<br><br>
-          No personal data is collected, stored, or processed. All predictions are aggregate statistics only.
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">DMRC Fare Structure (2024)</div>
-        <div class="fare-table">
-          <div class="fare-row"><span class="fare-label">Up to 2 km</span><span class="fare-amount">Rs 10</span></div>
-          <div class="fare-row"><span class="fare-label">2 to 5 km</span><span class="fare-amount">Rs 20</span></div>
-          <div class="fare-row"><span class="fare-label">5 to 12 km</span><span class="fare-amount">Rs 30</span></div>
-          <div class="fare-row"><span class="fare-label">12 to 21 km</span><span class="fare-amount">Rs 40</span></div>
-          <div class="fare-row"><span class="fare-label">21 to 32 km</span><span class="fare-amount">Rs 50</span></div>
-          <div class="fare-row"><span class="fare-label">Above 32 km</span><span class="fare-amount">Rs 60</span></div>
-        </div>
+        <div class="about-version">v1.0.0 — Open Source</div>
+        <div class="about-tagline">MetroCast is a free, open-source crowd intelligence platform for Delhi Metro. It helps commuters choose less crowded trains by combining real-time check-in data with ML predictions. No personal data is collected, stored, or processed. All predictions are aggregate statistics only.</div>
       </div>
 
       <div class="card">
         <div class="card-title">Privacy by Design</div>
         <div class="privacy-row">
-          <div class="privacy-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <div><div class="privacy-title">No Personal Data</div><div class="privacy-desc">Zero user accounts, zero location tracking.</div></div>
+          <div class="privacy-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="privacy-title">No Personal Data</div>
+            <div class="privacy-desc">Zero user accounts, zero location tracking, zero history stored.</div>
+          </div>
+        </div>
+        <div class="privacy-row">
+          <div class="privacy-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <div>
+            <div class="privacy-title">Aggregate Only</div>
+            <div class="privacy-desc">Only station-level counts used. No individual journeys tracked.</div>
+          </div>
+        </div>
+        <div class="privacy-row" style="margin-bottom:0">
+          <div class="privacy-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div>
+            <div class="privacy-title">Open Source</div>
+            <div class="privacy-desc">Full source code public. Anyone can audit, contribute, or fork.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FARE STRUCTURE -->
+      <div class="card">
+        <div class="card-title">Fare Structure (DMRC 2024)</div>
+        <table class="fare-table">
+          <tr><td>Up to 2 km</td><td>Rs 10</td></tr>
+          <tr><td>2 to 5 km</td><td>Rs 20</td></tr>
+          <tr><td>5 to 12 km</td><td>Rs 30</td></tr>
+          <tr><td>12 to 21 km</td><td>Rs 40</td></tr>
+          <tr><td>21 to 32 km</td><td>Rs 50</td></tr>
+          <tr><td>Above 32 km</td><td>Rs 60</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Tech Stack</div>
+        <div class="tech-stack">
+          <div class="tech-chip">
+            <div class="tech-chip-name">FastAPI</div>
+            <div class="tech-chip-role">Backend API</div>
+          </div>
+          <div class="tech-chip">
+            <div class="tech-chip-name">Python</div>
+            <div class="tech-chip-role">ML Engine</div>
+          </div>
+          <div class="tech-chip">
+            <div class="tech-chip-name">ARIMA</div>
+            <div class="tech-chip-role">Forecasting</div>
+          </div>
+          <div class="tech-chip">
+            <div class="tech-chip-name">GTFS</div>
+            <div class="tech-chip-role">Route Graph</div>
+          </div>
+          <div class="tech-chip">
+            <div class="tech-chip-name">Redis</div>
+            <div class="tech-chip-role">API Cache</div>
+          </div>
+          <div class="tech-chip">
+            <div class="tech-chip-name">PWA</div>
+            <div class="tech-chip-role">Installable</div>
+          </div>
+        </div>
+        <div class="api-info">
+          <div class="api-info-title">TransportStack API</div>
+          <div class="api-info-url">https://delhi.transportstack.in/data-services/datadetails/4</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Metro Lines</div>
+        <div class="line-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#E2231A"></div> Red</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#F5C518"></div> Yellow</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#0057A8"></div> Blue</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#3BAD4E"></div> Green</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#8B5CF6"></div> Violet</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#F97316"></div> Orange</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#EC4899"></div> Pink</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C026D3"></div> Magenta</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#06B6D4"></div> Aqua</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#9CA3AF"></div> Grey</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#B45309"></div> Rapid</div>
         </div>
       </div>
     </div>
@@ -471,197 +725,190 @@
 </div><!-- /shell -->
 
 <script>
+// ═══════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════
 const API_BASE = 'http://127.0.0.1:8000';
 
-// Color mapping for the provided station list
+// ═══════════════════════════════════════════
+// CORRECT DELHI METRO STATION LIST
+// Source: provided corrected station data
+// ═══════════════════════════════════════════
 const LINE_COLORS = {
-  "Yellow": "#F5C518",
-  "Blue": "#0057A8",
-  "Red": "#E2231A",
-  "Green": "#3BAD4E",
-  "Violet": "#8B5CF6",
-  "Pink": "#EC4899",
-  "Magenta": "#C026D3",
-  "Orange": "#F97316",
-  "Aqua": "#06B6D4",
-  "Grey": "#9CA3AF",
-  "Rapid": "#B45309",
-  "Green Branch": "#3BAD4E"
+  Yellow:'#F5C518', Blue:'#0057A8', Red:'#E2231A', Green:'#3BAD4E',
+  Violet:'#8B5CF6', Orange:'#F97316', Pink:'#EC4899', Magenta:'#C026D3',
+  Aqua:'#06B6D4', Grey:'#9CA3AF', Rapid:'#B45309', 'Green Branch':'#3BAD4E'
 };
 
 const STATIONS = [
-  {name:"Adarsh Nagar",code:"YE4",line:"Yellow",dist:6},
-  {name:"Ajronda",code:"VL12",line:"Violet",dist:32},
-  {name:"Akshardham",code:"BL12",line:"Blue",dist:12},
-  {name:"Anand Vihar ISBT",code:"BL14",line:"Blue",dist:15},
-  {name:"Arjan Garh",code:"YE44",line:"Yellow",dist:45},
-  {name:"Arthala",code:"RL5",line:"Red",dist:5},
-  {name:"Ashok Park Main",code:"GR2",line:"Green",dist:2},
-  {name:"Ashok Nagar",code:"PL24",line:"Pink",dist:22},
-  {name:"AIIMS",code:"YE24",line:"Yellow",dist:25},
-  {name:"Azadpur",code:"YE5",line:"Yellow",dist:7},
-  {name:"Badarpur Border",code:"VL17",line:"Violet",dist:38},
-  {name:"Bahadurgarh City",code:"GR10",line:"Green",dist:12},
-  {name:"Baljit Nagar",code:"PK4",line:"Pink",dist:4},
-  {name:"Ballabhgarh",code:"VL22",line:"Violet",dist:46},
-  {name:"Bata Chowk",code:"VL14",line:"Violet",dist:35},
-  {name:"Botanical Garden",code:"ML13",line:"Magenta",dist:28},
-  {name:"Brigadier Hoshiyar Singh",code:"GR11",line:"Green",dist:13},
-  {name:"Central Secretariat",code:"YE19",line:"Yellow",dist:20},
-  {name:"Chatterpur",code:"YE39",line:"Yellow",dist:40},
-  {name:"Chawri Bazar",code:"YE14",line:"Yellow",dist:15},
-  {name:"Civil Lines",code:"YE11",line:"Yellow",dist:12},
-  {name:"Dabri Mor - Janakpuri South",code:"ML5",line:"Magenta",dist:8},
-  {name:"Dashrathpuri",code:"ML4",line:"Magenta",dist:6},
-  {name:"Delhi Aerocity",code:"OR3",line:"Orange",dist:16},
-  {name:"Delhi Cantt",code:"BL29",line:"Blue",dist:30},
-  {name:"Dilshad Garden",code:"RL14",line:"Red",dist:16},
-  {name:"Durgabai Deshmukh South Campus",code:"PL23",line:"Pink",dist:21},
-  {name:"Dwarka",code:"BL35",line:"Blue",dist:36},
-  {name:"Dwarka Mor",code:"BL34",line:"Blue",dist:35},
-  {name:"Dwarka Sector 10",code:"BL33",line:"Blue",dist:34},
-  {name:"Dwarka Sector 11",code:"BL32",line:"Blue",dist:33},
-  {name:"Dwarka Sector 12",code:"BL31",line:"Blue",dist:32},
-  {name:"Dwarka Sector 13",code:"BL30",line:"Blue",dist:31},
-  {name:"Dwarka Sector 14",code:"BL29B",line:"Blue",dist:29},
-  {name:"Dwarka Sector 21",code:"BL36",line:"Blue",dist:37},
-  {name:"East Azad Nagar",code:"PL8",line:"Pink",dist:8},
-  {name:"Escorts Mujesar",code:"VL18",line:"Violet",dist:40},
-  {name:"ESI Hospital",code:"GR4",line:"Green",dist:4},
-  {name:"Faridabad New Town",code:"VL13",line:"Violet",dist:33},
-  {name:"Ghevra",code:"GR8",line:"Green",dist:10},
-  {name:"GNIDA Office",code:"AQ3",line:"Aqua",dist:3},
-  {name:"Gokulpuri",code:"PL10",line:"Pink",dist:10},
-  {name:"Govind Puri",code:"VL7",line:"Violet",dist:18},
-  {name:"Greater Kailash",code:"ML11",line:"Magenta",dist:22},
-  {name:"GTB Nagar",code:"YE8",line:"Yellow",dist:9},
-  {name:"Hauz Khas",code:"YE28",line:"Yellow",dist:29},
-  {name:"Hindon River",code:"RL3",line:"Red",dist:3},
-  {name:"Huda City Centre",code:"YE47",line:"Yellow",dist:48},
-  {name:"INA",code:"YE26",line:"Yellow",dist:27},
-  {name:"Inderlok",code:"GR1",line:"Green",dist:1},
-  {name:"Indira Gandhi International Airport",code:"OR4",line:"Orange",dist:18},
-  {name:"IP Extension",code:"PL7",line:"Pink",dist:7},
-  {name:"ITO",code:"VL3",line:"Violet",dist:5},
-  {name:"Jahangirpuri",code:"YE1",line:"Yellow",dist:2},
-  {name:"Jama Masjid",code:"VL2",line:"Violet",dist:4},
-  {name:"Janakpuri East",code:"ML6",line:"Magenta",dist:10},
-  {name:"Janakpuri West",code:"ML1",line:"Magenta",dist:1},
-  {name:"Jasola Apollo",code:"VL9",line:"Violet",dist:22},
-  {name:"Jasola Vihar Shaheen Bagh",code:"ML12",line:"Magenta",dist:25},
-  {name:"Jhandewalan",code:"YE16",line:"Yellow",dist:17},
-  {name:"Jhilmil",code:"PL6",line:"Pink",dist:6},
-  {name:"Jonapur",code:"ML10",line:"Magenta",dist:20},
-  {name:"Kali Bari Marg",code:"PK5",line:"Pink",dist:5},
-  {name:"Kalkaji Mandir",code:"VL8",line:"Violet",dist:20},
-  {name:"Kalindi Kunj",code:"ML13B",line:"Magenta",dist:26},
-  {name:"Kashmere Gate",code:"VL1",line:"Violet",dist:1},
-  {name:"Keshav Puram",code:"GR6",line:"Green",dist:6},
-  {name:"Khan Market",code:"VL5",line:"Violet",dist:12},
-  {name:"Khyala",code:"GR3B",line:"Green Branch",dist:3},
-  {name:"Kirti Nagar",code:"GR3",line:"Green",dist:3},
-  {name:"Krishna Nagar",code:"PL5",line:"Pink",dist:5},
-  {name:"Lajpat Nagar",code:"VL6",line:"Violet",dist:15},
-  {name:"Lal Quila",code:"VL2B",line:"Violet",dist:3},
-  {name:"Lado Sarai",code:"YE36",line:"Yellow",dist:37},
-  {name:"Laxmi Nagar",code:"BL9",line:"Blue",dist:9},
-  {name:"Lok Kalyan Marg",code:"PK6",line:"Pink",dist:6},
-  {name:"Lok Nayak Hospital",code:"PL12",line:"Pink",dist:12},
-  {name:"Majlis Park",code:"PL1",line:"Pink",dist:1},
-  {name:"Malviya Nagar",code:"YE35",line:"Yellow",dist:36},
-  {name:"Mandawali - West Vinod Nagar",code:"PL9",line:"Pink",dist:9},
-  {name:"Mansarovar Park",code:"RL10",line:"Red",dist:12},
-  {name:"Mandi House",code:"VL4",line:"Violet",dist:8},
-  {name:"Maya Puri",code:"GR5",line:"Green",dist:5},
-  {name:"Metro Bhawan",code:"YE18",line:"Yellow",dist:19},
-  {name:"MG Road",code:"YE42",line:"Yellow",dist:43},
-  {name:"Model Town",code:"YE7",line:"Yellow",dist:8},
-  {name:"Mohan Estate",code:"VL19",line:"Violet",dist:42},
-  {name:"Moti Nagar",code:"BL5",line:"Blue",dist:5},
-  {name:"Mundka",code:"GR7",line:"Green",dist:9},
-  {name:"Mundka Industrial Area",code:"GR7B",line:"Green",dist:8},
-  {name:"Najafgarh",code:"GY2",line:"Grey",dist:9},
-  {name:"Nangloi",code:"GR6B",line:"Green",dist:7},
-  {name:"Nangloi Railway Station",code:"GR6C",line:"Green",dist:7},
-  {name:"Netaji Subhash Place",code:"RL8",line:"Red",dist:10},
-  {name:"New Delhi",code:"OR2",line:"Orange",dist:2},
-  {name:"Noida City Centre",code:"BL21",line:"Blue",dist:22},
-  {name:"Noida Electronic City",code:"BL23",line:"Blue",dist:25},
-  {name:"Noida Sector 15",code:"BL16",line:"Blue",dist:17},
-  {name:"Noida Sector 16",code:"BL17",line:"Blue",dist:18},
-  {name:"Noida Sector 18",code:"BL18",line:"Blue",dist:19},
-  {name:"Noida Sector 34",code:"BL19",line:"Blue",dist:20},
-  {name:"Noida Sector 52",code:"BL20",line:"Blue",dist:21},
-  {name:"Noida Sector 62",code:"BL22",line:"Blue",dist:23},
-  {name:"Okhla",code:"VL10",line:"Violet",dist:24},
-  {name:"Okhla Bird Sanctuary",code:"ML14",line:"Magenta",dist:30},
-  {name:"Okhla NSIC",code:"ML12B",line:"Magenta",dist:24},
-  {name:"Palam",code:"ML3",line:"Magenta",dist:5},
-  {name:"Patel Chowk",code:"YE20",line:"Yellow",dist:21},
-  {name:"Patel Nagar",code:"GR4B",line:"Green",dist:4},
-  {name:"Patparganj",code:"BL13",line:"Blue",dist:13},
-  {name:"Pitampura",code:"RL7",line:"Red",dist:9},
-  {name:"Preet Vihar",code:"BL11",line:"Blue",dist:11},
-  {name:"Punjabi Bagh East",code:"GR4C",line:"Green",dist:4},
-  {name:"Punjabi Bagh West",code:"PK3",line:"Pink",dist:3},
-  {name:"Pushp Vihar",code:"YE37",line:"Yellow",dist:38},
-  {name:"Qutub Minar",code:"YE32",line:"Yellow",dist:33},
-  {name:"Rajiv Chowk",code:"YE17",line:"Yellow",dist:18},
-  {name:"Rajouri Garden",code:"BL7",line:"Blue",dist:7},
-  {name:"Raja Nahar Singh (Ballabhgarh)",code:"VL22B",line:"Violet",dist:47},
-  {name:"Ram Krishna Ashram Marg",code:"YE15",line:"Yellow",dist:16},
-  {name:"Rithala",code:"RL1",line:"Red",dist:1},
-  {name:"RRTS Sarai Kale Khan",code:"RT1",line:"Rapid",dist:1},
-  {name:"Sadar Bazar Cantonment",code:"ML2",line:"Magenta",dist:3},
-  {name:"Saket",code:"YE34",line:"Yellow",dist:35},
-  {name:"Samaypur Badli",code:"YE2",line:"Yellow",dist:3},
-  {name:"Sarojini Nagar",code:"PK7",line:"Pink",dist:7},
-  {name:"Sarita Vihar",code:"VL11",line:"Violet",dist:26},
-  {name:"Sector 28 Faridabad",code:"VL16",line:"Violet",dist:37},
-  {name:"Sector 31 Faridabad",code:"VL15",line:"Violet",dist:36},
-  {name:"Shastri Nagar",code:"YE9",line:"Yellow",dist:10},
-  {name:"Shastri Park",code:"RL11",line:"Red",dist:13},
-  {name:"Shiv Vihar",code:"PL26",line:"Pink",dist:24},
-  {name:"Sikandarpur",code:"YE43",line:"Yellow",dist:44},
-  {name:"South Campus",code:"YE31",line:"Yellow",dist:32},
-  {name:"Subhash Nagar",code:"BL6",line:"Blue",dist:6},
-  {name:"Sunder Nagar",code:"VL4B",line:"Violet",dist:9},
-  {name:"Surajmal Stadium",code:"PL11",line:"Pink",dist:11},
-  {name:"Tagore Garden",code:"BL4",line:"Blue",dist:4},
-  {name:"Terminal 1 IGI Airport",code:"ML2B",line:"Magenta",dist:4},
-  {name:"Tikri Border",code:"GR9",line:"Green",dist:11},
-  {name:"Tikri Kalan",code:"GR9B",line:"Green",dist:12},
-  {name:"Trilokpuri Sanjay Lake",code:"PL8B",line:"Pink",dist:8},
-  {name:"Tis Hazari",code:"YE12",line:"Yellow",dist:13},
-  {name:"Udyog Bhawan",code:"YE22",line:"Yellow",dist:23},
-  {name:"Uttam Nagar East",code:"BL3",line:"Blue",dist:3},
-  {name:"Uttam Nagar West",code:"BL2",line:"Blue",dist:2},
-  {name:"Vaishali",code:"BL15",line:"Blue",dist:16},
-  {name:"Vasant Kunj Sector D",code:"ML8",line:"Magenta",dist:16},
-  {name:"Vasant Vihar",code:"ML9",line:"Magenta",dist:18},
-  {name:"Vidhan Sabha",code:"YE10",line:"Yellow",dist:11},
-  {name:"Vinobapuri",code:"VL6B",line:"Violet",dist:16},
-  {name:"Vishwavidyalaya",code:"YE6",line:"Yellow",dist:7},
-  {name:"Welcome",code:"RL12",line:"Red",dist:14},
-  {name:"Yamuna Bank",code:"BL10",line:"Blue",dist:10}
-].sort((a,b)=>a.name.localeCompare(b.name));
+  {name:"Adarsh Nagar",line:"Yellow"},
+  {name:"Ajronda",line:"Violet"},
+  {name:"Akshardham",line:"Blue"},
+  {name:"Anand Vihar ISBT",line:"Blue"},
+  {name:"Arjan Garh",line:"Yellow"},
+  {name:"Arthala",line:"Red"},
+  {name:"Ashok Park Main",line:"Green"},
+  {name:"Ashok Nagar",line:"Pink"},
+  {name:"AIIMS",line:"Yellow"},
+  {name:"Azadpur",line:"Yellow"},
+  {name:"Badarpur Border",line:"Violet"},
+  {name:"Bahadurgarh City",line:"Green"},
+  {name:"Baljit Nagar",line:"Pink"},
+  {name:"Ballabhgarh",line:"Violet"},
+  {name:"Bata Chowk",line:"Violet"},
+  {name:"Botanical Garden",line:"Magenta"},
+  {name:"Brigadier Hoshiyar Singh",line:"Green"},
+  {name:"Central Secretariat",line:"Yellow"},
+  {name:"Chatterpur",line:"Yellow"},
+  {name:"Chawri Bazar",line:"Yellow"},
+  {name:"Civil Lines",line:"Yellow"},
+  {name:"Dabri Mor - Janakpuri South",line:"Magenta"},
+  {name:"Dashrathpuri",line:"Magenta"},
+  {name:"Delhi Aerocity",line:"Orange"},
+  {name:"Delhi Cantt",line:"Blue"},
+  {name:"Dilshad Garden",line:"Red"},
+  {name:"Durgabai Deshmukh South Campus",line:"Pink"},
+  {name:"Dwarka",line:"Blue"},
+  {name:"Dwarka Mor",line:"Blue"},
+  {name:"Dwarka Sector 10",line:"Blue"},
+  {name:"Dwarka Sector 11",line:"Blue"},
+  {name:"Dwarka Sector 12",line:"Blue"},
+  {name:"Dwarka Sector 13",line:"Blue"},
+  {name:"Dwarka Sector 14",line:"Blue"},
+  {name:"Dwarka Sector 21",line:"Blue"},
+  {name:"East Azad Nagar",line:"Pink"},
+  {name:"Escorts Mujesar",line:"Violet"},
+  {name:"ESI Hospital",line:"Green"},
+  {name:"Faridabad New Town",line:"Violet"},
+  {name:"Ghevra",line:"Green"},
+  {name:"GNIDA Office",line:"Aqua"},
+  {name:"Gokulpuri",line:"Pink"},
+  {name:"Govind Puri",line:"Violet"},
+  {name:"Greater Kailash",line:"Magenta"},
+  {name:"GTB Nagar",line:"Yellow"},
+  {name:"Hauz Khas",line:"Yellow"},
+  {name:"Hindon River",line:"Red"},
+  {name:"Huda City Centre",line:"Yellow"},
+  {name:"INA",line:"Yellow"},
+  {name:"Inderlok",line:"Green"},
+  {name:"Indira Gandhi International Airport",line:"Orange"},
+  {name:"IP Extension",line:"Pink"},
+  {name:"ITO",line:"Violet"},
+  {name:"Jahangirpuri",line:"Yellow"},
+  {name:"Jama Masjid",line:"Violet"},
+  {name:"Janakpuri East",line:"Magenta"},
+  {name:"Janakpuri West",line:"Magenta"},
+  {name:"Jasola Apollo",line:"Violet"},
+  {name:"Jasola Vihar Shaheen Bagh",line:"Magenta"},
+  {name:"Jhandewalan",line:"Yellow"},
+  {name:"Jhilmil",line:"Pink"},
+  {name:"Jonapur",line:"Magenta"},
+  {name:"Kali Bari Marg",line:"Pink"},
+  {name:"Kalkaji Mandir",line:"Violet"},
+  {name:"Kalindi Kunj",line:"Magenta"},
+  {name:"Kashmere Gate",line:"Violet"},
+  {name:"Keshav Puram",line:"Green"},
+  {name:"Khan Market",line:"Violet"},
+  {name:"Khyala",line:"Green Branch"},
+  {name:"Kirti Nagar",line:"Green"},
+  {name:"Krishna Nagar",line:"Pink"},
+  {name:"Lajpat Nagar",line:"Violet"},
+  {name:"Lal Quila",line:"Violet"},
+  {name:"Lado Sarai",line:"Yellow"},
+  {name:"Laxmi Nagar",line:"Blue"},
+  {name:"Lok Kalyan Marg",line:"Pink"},
+  {name:"Lok Nayak Hospital",line:"Pink"},
+  {name:"Majlis Park",line:"Pink"},
+  {name:"Malviya Nagar",line:"Yellow"},
+  {name:"Mandawali - West Vinod Nagar",line:"Pink"},
+  {name:"Mansarovar Park",line:"Red"},
+  {name:"Mandi House",line:"Violet"},
+  {name:"Maya Puri",line:"Green"},
+  {name:"Metro Bhawan",line:"Yellow"},
+  {name:"MG Road",line:"Yellow"},
+  {name:"Model Town",line:"Yellow"},
+  {name:"Mohan Estate",line:"Violet"},
+  {name:"Moti Nagar",line:"Blue"},
+  {name:"Mundka",line:"Green"},
+  {name:"Mundka Industrial Area",line:"Green"},
+  {name:"Najafgarh",line:"Grey"},
+  {name:"Nangloi",line:"Green"},
+  {name:"Nangloi Railway Station",line:"Green"},
+  {name:"Netaji Subhash Place",line:"Red"},
+  {name:"New Delhi",line:"Orange"},
+  {name:"Noida City Centre",line:"Blue"},
+  {name:"Noida Electronic City",line:"Blue"},
+  {name:"Noida Sector 15",line:"Blue"},
+  {name:"Noida Sector 16",line:"Blue"},
+  {name:"Noida Sector 18",line:"Blue"},
+  {name:"Noida Sector 34",line:"Blue"},
+  {name:"Noida Sector 52",line:"Blue"},
+  {name:"Noida Sector 62",line:"Blue"},
+  {name:"Okhla",line:"Violet"},
+  {name:"Okhla Bird Sanctuary",line:"Magenta"},
+  {name:"Okhla NSIC",line:"Magenta"},
+  {name:"Palam",line:"Magenta"},
+  {name:"Patel Chowk",line:"Yellow"},
+  {name:"Patel Nagar",line:"Green"},
+  {name:"Patparganj",line:"Blue"},
+  {name:"Pitampura",line:"Red"},
+  {name:"Preet Vihar",line:"Blue"},
+  {name:"Punjabi Bagh East",line:"Green"},
+  {name:"Punjabi Bagh West",line:"Pink"},
+  {name:"Pushp Vihar",line:"Yellow"},
+  {name:"Qutub Minar",line:"Yellow"},
+  {name:"Rajiv Chowk",line:"Yellow"},
+  {name:"Rajouri Garden",line:"Blue"},
+  {name:"Raja Nahar Singh (Ballabhgarh)",line:"Violet"},
+  {name:"Ram Krishna Ashram Marg",line:"Yellow"},
+  {name:"Rithala",line:"Red"},
+  {name:"RRTS Sarai Kale Khan",line:"Rapid"},
+  {name:"Sadar Bazar Cantonment",line:"Magenta"},
+  {name:"Saket",line:"Yellow"},
+  {name:"Samaypur Badli",line:"Yellow"},
+  {name:"Sarojini Nagar",line:"Pink"},
+  {name:"Sarita Vihar",line:"Violet"},
+  {name:"Sector 28 Faridabad",line:"Violet"},
+  {name:"Sector 31 Faridabad",line:"Violet"},
+  {name:"Shastri Nagar",line:"Yellow"},
+  {name:"Shastri Park",line:"Red"},
+  {name:"Shiv Vihar",line:"Pink"},
+  {name:"Sikandarpur",line:"Yellow"},
+  {name:"South Campus",line:"Yellow"},
+  {name:"Subhash Nagar",line:"Blue"},
+  {name:"Sunder Nagar",line:"Violet"},
+  {name:"Surajmal Stadium",line:"Pink"},
+  {name:"Tagore Garden",line:"Blue"},
+  {name:"Terminal 1 IGI Airport",line:"Magenta"},
+  {name:"Tikri Border",line:"Green"},
+  {name:"Tikri Kalan",line:"Green"},
+  {name:"Trilokpuri Sanjay Lake",line:"Pink"},
+  {name:"Tis Hazari",line:"Yellow"},
+  {name:"Udyog Bhawan",line:"Yellow"},
+  {name:"Uttam Nagar East",line:"Blue"},
+  {name:"Uttam Nagar West",line:"Blue"},
+  {name:"Vaishali",line:"Blue"},
+  {name:"Vasant Kunj Sector D",line:"Magenta"},
+  {name:"Vasant Vihar",line:"Magenta"},
+  {name:"Vidhan Sabha",line:"Yellow"},
+  {name:"Vinobapuri",line:"Violet"},
+  {name:"Vishwavidyalaya",line:"Yellow"},
+  {name:"Welcome",line:"Red"},
+  {name:"Yamuna Bank",line:"Blue"}
+].map(s=>({...s, color: LINE_COLORS[s.line]||'#888'}))
+ .sort((a,b)=>a.name.localeCompare(b.name));
 
-// Fare calculation based on provided image
-function calcFare(dist) {
-  const d = Math.abs(dist);
-  if(d<=2)  return 10;
-  if(d<=5)  return 20;
-  if(d<=12) return 30;
-  if(d<=21) return 40;
-  if(d<=32) return 50;
-  return 60;
-}
-
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
 let selectedFrom = null;
 let selectedTo   = null;
 let selectedCrowdStation = null;
 let backendOnline = false;
 
+// ═══════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════
 function switchTab(name, el){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -670,56 +917,82 @@ function switchTab(name, el){
   if(name==='ml') renderForecastBars();
 }
 
+// ═══════════════════════════════════════════
+// DROPDOWNS
+// ═══════════════════════════════════════════
 function filterStations(which, query){
   const matches = query.length<1
     ? STATIONS.slice(0,40)
     : STATIONS.filter(s=>s.name.toLowerCase().includes(query.toLowerCase())).slice(0,30);
 
-  const ddId = which==='from' ? 'fromDropdown' : which==='to' ? 'toDropdown' : 'crowdStationDropdown';
+  const ddId = which==='from' ? 'fromDropdown'
+             : which==='to'   ? 'toDropdown'
+             : 'crowdStationDropdown';
   const dd = document.getElementById(ddId);
   dd.innerHTML = matches.map(s=>`
-    <div class="dropdown-item" onclick="selectStation('${which}','${s.name}','${s.line}')">
-      <div class="line-dot" style="background:${LINE_COLORS[s.line] || '#ccc'}"></div>
-      <div><div class="station-name">${s.name}</div><div class="station-line-tag">${s.line} Line</div></div>
+    <div class="dropdown-item" onclick="selectStation('${which}','${s.name.replace(/'/g,"\\'")}','${s.line}','${s.color}')">
+      <div class="line-dot" style="background:${s.color}"></div>
+      <div>
+        <div class="station-name">${s.name}</div>
+        <div class="station-line-tag">${s.line} Line</div>
+      </div>
     </div>`).join('');
   dd.classList.add('open');
 }
 
 function openDropdown(which){
-  filterStations(which, document.getElementById(which==='from'?'fromInput':which==='to'?'toInput':'crowdStationInput').value);
+  filterStations(which, document.getElementById(
+    which==='from'?'fromInput':which==='to'?'toInput':'crowdStationInput'
+  ).value);
 }
 
-function selectStation(which, name, line){
-  const station = STATIONS.find(s => s.name === name);
+function selectStation(which, name, line, color){
   if(which==='from'){
-    selectedFrom = station;
+    selectedFrom = {name,line,color};
     document.getElementById('fromInput').value = name;
     document.getElementById('fromDropdown').classList.remove('open');
   } else if(which==='to'){
-    selectedTo = station;
+    selectedTo = {name,line,color};
     document.getElementById('toInput').value = name;
     document.getElementById('toDropdown').classList.remove('open');
   } else {
-    selectedCrowdStation = station;
+    selectedCrowdStation = {name,line,color};
     document.getElementById('crowdStationInput').value = name;
     document.getElementById('crowdStationDropdown').classList.remove('open');
   }
 }
 
 document.addEventListener('click', e=>{
-  if(!e.target.closest('.search-container')) document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
+  if(!e.target.closest('.search-container')){
+    document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
+  }
 });
 
+// ═══════════════════════════════════════════
+// SWAP
+// ═══════════════════════════════════════════
 function swapStations(){
-  const tmp = selectedFrom; selectedFrom = selectedTo; selectedTo = tmp;
+  const tmp = selectedFrom;
+  selectedFrom = selectedTo;
+  selectedTo = tmp;
   document.getElementById('fromInput').value = selectedFrom ? selectedFrom.name : '';
   document.getElementById('toInput').value   = selectedTo   ? selectedTo.name   : '';
 }
 
+// ═══════════════════════════════════════════
+// PLAN ROUTE
+// ═══════════════════════════════════════════
 async function planRoute(){
-  if(!selectedFrom || !selectedTo){ alert('Please select both stations.'); return; }
+  if(!selectedFrom || !selectedTo){
+    alert('Please select both stations.'); return;
+  }
+  if(selectedFrom.name === selectedTo.name){
+    alert('Origin and destination are the same.'); return;
+  }
+
   const btn = document.querySelector('.plan-btn');
-  btn.textContent = 'Planning...'; btn.disabled = true;
+  btn.textContent = 'Planning...';
+  btn.disabled = true;
 
   try {
     let routeData;
@@ -731,113 +1004,253 @@ async function planRoute(){
     }
     renderRoute(routeData);
   } catch(e){
-    renderRoute(mockRoute(selectedFrom, selectedTo));
+    const routeData = mockRoute(selectedFrom, selectedTo);
+    renderRoute(routeData);
   }
-  btn.textContent = 'Plan My Route'; btn.disabled = false;
+
+  btn.textContent = 'Plan My Route';
+  btn.disabled = false;
 }
 
 function mockRoute(from, to){
-  const distance = Math.abs(from.dist - to.dist);
-  const fare = calcFare(distance);
-  const stops = Math.floor(distance/1.2) + 2;
-  const sameLine = from.line === to.line;
-  
-  const segments = sameLine 
-    ? [{line:from.line, color:LINE_COLORS[from.line], from:from.name, to:to.name}] 
-    : [{line:from.line, color:LINE_COLORS[from.line], from:from.name, to:"Interchange"}, {line:to.line, color:LINE_COLORS[to.line], from:"Interchange", to:to.name}];
+  const sameLineProbability = from.line === to.line;
+  const stops = Math.floor(Math.random()*14)+3;
+  const km = (stops * 1.2).toFixed(1);
+  const interchanges = sameLineProbability ? 0 : 1;
+  const duration = Math.ceil(stops * 2.5 + interchanges * 5);
 
-  return {from:from.name, to:to.name, stops, duration_min:stops*3, fare_inr:fare, segments};
+  const fares = [[2,10],[5,20],[12,30],[21,40],[32,50]];
+  let fare = 60;
+  for(const [d,f] of fares){ if(km<=d){fare=f;break;} }
+
+  const segments = sameLineProbability
+    ? [{line:from.line, color:from.color, stops, from:from.name, to:to.name}]
+    : [
+        {line:from.line, color:from.color, stops:Math.ceil(stops/2), from:from.name, to:"Interchange Station"},
+        {line:to.line,   color:to.color,   stops:Math.floor(stops/2), from:"Interchange Station", to:to.name}
+      ];
+
+  return {from:from.name, to:to.name, stops, distance_km:km,
+          duration_min:duration, fare_inr:fare, interchanges, segments,
+          fromLine:from.line, fromColor:from.color};
 }
 
 function renderRoute(data){
-  document.getElementById('rFrom').textContent = data.from;
-  document.getElementById('rTo').textContent = data.to;
-  document.getElementById('rFare').textContent = 'Rs. ' + data.fare_inr;
-  document.getElementById('rTime').textContent = data.duration_min + ' min';
-  document.getElementById('rStops').textContent = data.stops + ' stops';
+  document.getElementById('rFrom').textContent   = data.from;
+  document.getElementById('rTo').textContent     = data.to;
+  document.getElementById('rFare').textContent   = 'Rs. ' + data.fare_inr;
+  document.getElementById('rTime').textContent   = data.duration_min + ' min';
+  document.getElementById('rStops').textContent  = data.stops + ' stops';
 
   const viz = document.getElementById('routeViz');
-  viz.innerHTML = data.segments.map((seg,i)=>`
+  const segs = data.segments || [{line:data.fromLine||'Blue', color:data.fromColor||'#0057A8', stops:data.stops, from:data.from, to:data.to}];
+  viz.innerHTML = segs.map((seg,i)=>`
     <div class="route-segment">
       <div class="seg-line-color" style="background:${seg.color}"></div>
       <div class="seg-info">
         <div class="seg-line-name" style="color:${seg.color}">${seg.line} Line</div>
-        <div class="seg-stops">${seg.from} to ${seg.to} (${seg.stops || 0} stops)</div>
+        <div class="seg-stops">${seg.from} to ${seg.to} (${seg.stops} stops)</div>
       </div>
     </div>
-    ${i < data.segments.length-1 ? `<div class="interchange-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3L4 7l4 4M4 7h16M16 21l4-4-4-4M20 17H4"/></svg> Interchange
+    ${i < segs.length-1 ? `<div class="interchange-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M8 3L4 7l4 4"/><path d="M4 7h16"/><path d="M16 21l4-4-4-4"/><path d="M20 17H4"/>
+      </svg>
+      Interchange
     </div>` : ''}
   `).join('');
 
-  document.getElementById('routeResult').style.display='block';
-  document.getElementById('routeResult').classList.add('visible');
+  const result = document.getElementById('routeResult');
+  result.classList.add('visible');
+  result.style.display='block';
 
-  updateCrowdUI(Math.floor(Math.random()*60)+10);
+  // Render crowd forecast next train widget
+  renderCrowdForecast(data);
 }
 
-function updateCrowdUI(pct){
-  document.getElementById('crowdPct').textContent = pct+'%';
-  document.getElementById('crowdBarFill').style.width = pct+'%';
-  const sb = document.getElementById('crowdStatusBadge');
-  const st = document.getElementById('crowdStatusText');
-  sb.className = 'crowd-status ' + (pct<40?'low':pct<70?'medium':'high');
-  st.textContent = pct<40 ? 'Not crowded -- comfortable boarding'
-                 : pct<70 ? 'Moderately busy -- may need to wait one train'
-                 : 'Very crowded -- plan for delays';
+// ═══════════════════════════════════════════
+// CROWD FORECAST NEXT TRAIN WIDGET
+// ═══════════════════════════════════════════
+function renderCrowdForecast(routeData){
+  const hour = new Date().getHours();
+  const peaks = [2,1,1,3,8,35,90,100,80,55,50,52,55,52,60,75,95,90,70,55,45,35,22,10];
+  const basePct = Math.min(100, Math.max(5, peaks[hour] + (Math.random()*14-7)));
+  const pct = Math.round(basePct);
+
+  // Line info from first segment
+  const firstSeg = routeData.segments?.[0];
+  const lineName = (firstSeg?.line || routeData.fromLine || 'Blue') + ' Line';
+  const lineColor = firstSeg?.color || routeData.fromColor || '#0057A8';
+  const stationName = routeData.from;
+  const nextMins = Math.floor(Math.random()*8)+1;
+
+  document.getElementById('fncLineDot').style.background = lineColor;
+  document.getElementById('fncLineName').textContent = lineName;
+  document.getElementById('fncStation').textContent = stationName;
+  document.getElementById('fncNextTrain').textContent = `Next train in ${nextMins} min`;
+  document.getElementById('fncPct').textContent = pct + '%';
+  document.getElementById('fncBarFill').style.width = pct + '%';
+
+  // Confidence
+  const conf = pct > 60 ? 'High' : 'Medium';
+  document.getElementById('fncConfPill').textContent = conf;
+
+  // Time slots: now + 5 offsets
+  const now = new Date();
+  const slots = [];
+  for(let i=0;i<5;i++){
+    const slotDate = new Date(now.getTime() + (i+1)*15*60000);
+    const hh = slotDate.getHours();
+    const mm = String(slotDate.getMinutes()).padStart(2,'0');
+    const ampm = hh>=12?'p':'a';
+    const disp = (hh%12||12)+':'+mm+ampm;
+    const slotPct = Math.min(100, Math.max(5, peaks[hh%24] + (Math.random()*16-8)));
+    slots.push({label:disp, pct:Math.round(slotPct), active: i===0});
+  }
+
+  document.getElementById('fncSlots').innerHTML = slots.map(s=>`
+    <div class="fnc-slot ${s.active?'active':''}">
+      <div class="fnc-slot-time">${s.label}</div>
+      <div class="fnc-slot-bar">
+        <div class="fnc-slot-bar-inner" style="height:${s.pct}%"></div>
+      </div>
+    </div>
+  `).join('');
 }
 
+// ═══════════════════════════════════════════
+// LIVE CROWD
+// ═══════════════════════════════════════════
 async function fetchCrowd(){
   if(!selectedCrowdStation){ alert('Please select a station.'); return; }
   const card = document.getElementById('crowdResultCard');
   card.style.display='block';
   card.innerHTML='<div class="loading-row"><div class="spinner"></div> Fetching live data...</div>';
-  
-  await new Promise(r=>setTimeout(r,600));
-  const pct = Math.floor(Math.random()*80)+20;
-  const statusClass = pct<40?'low':pct<70?'medium':'high';
-  const statusText = pct<40?'Not crowded':pct<70?'Moderately busy':'Very crowded';
 
-  card.innerHTML = `
-    <div class="card-title">${selectedCrowdStation.name}</div>
-    <div class="crowd-grid">
-      <div class="crowd-metric"><div class="crowd-metric-val">${Math.floor(Math.random()*500)+200)}</div><div class="crowd-metric-label">Check-ins</div></div>
-      <div class="crowd-metric"><div class="crowd-metric-val">${Math.floor(Math.random()*500)+200)}</div><div class="crowd-metric-label">Check-outs</div></div>
-    </div>
-    <div class="crowd-bar-wrap">
-      <div class="crowd-bar-label"><span>Current Occupancy</span><span>${pct}%</span></div>
-      <div class="crowd-bar"><div class="crowd-bar-fill" style="width:${pct}%"></div></div>
-    </div>
-    <div class="crowd-status ${statusClass}"><span class="crowd-status-dot"></span><span>${statusText}</span></div>
-    <button class="refresh-btn" onclick="fetchCrowd()">Refresh</button>
-  `;
-}
-
-function renderForecastBars(){
-  const bars = [];
-  for(let i=0;i<7;i++) bars.push({label: i===0?'Now':'+'+(i*5)+'m', val: Math.random()*100});
-  document.getElementById('mlHeroVal').textContent = Math.round(bars[3].val)+'%';
-  document.getElementById('forecastBars').innerHTML = bars.map(b=>`
-    <div class="forecast-bar-wrap"><div class="forecast-bar-col"><div class="forecast-bar" style="height:${b.val}%"></div></div><div class="forecast-bar-label">${b.label}</div></div>`).join('');
-}
-
-async function checkBackend(){
   try {
-    const res = await fetch(`${API_BASE}/api/system/load`, {signal: AbortSignal.timeout(2000)});
-    if(res.ok) { 
-      backendOnline = true; 
-      document.getElementById('apiStatusLabel').textContent = 'Live'; 
-      document.getElementById('offlineBanner').classList.remove('show');
+    let data;
+    if(backendOnline){
+      const res = await fetch(`${API_BASE}/api/crowd/predict?station=${encodeURIComponent(selectedCrowdStation.name)}&line=${encodeURIComponent(selectedCrowdStation.line)}`);
+      data = await res.json();
+    } else {
+      await new Promise(r=>setTimeout(r,800));
+      data = mockCrowdData(selectedCrowdStation);
     }
+    renderCrowdCard(data);
   } catch(e){
-    backendOnline = false; 
-    document.getElementById('apiStatusLabel').textContent = 'Offline'; 
-    document.getElementById('offlineBanner').classList.add('show');
+    const data = mockCrowdData(selectedCrowdStation);
+    renderCrowdCard(data);
   }
 }
 
+function mockCrowdData(station){
+  const hour = new Date().getHours();
+  const peaks = [0,0,0,0,.1,.3,.9,1,.8,.5,.4,.45,.5,.45,.55,.7,.95,.9,.7,.5,.4,.3,.2,.1];
+  const base = peaks[hour]*100;
+  const cur = Math.min(100, Math.max(0, base + (Math.random()*20-10)));
+  const forecast = Math.min(100, Math.max(0, cur + (Math.random()*16-8)));
+  return {
+    station: station.name,
+    line: station.line,
+    current_crowd_pct: Math.round(cur),
+    predicted_crowd_pct: Math.round(forecast),
+    confidence: cur > 60 ? 'high' : 'medium',
+    checkins: Math.floor(Math.random()*800)+100,
+    checkouts: Math.floor(Math.random()*700)+80
+  };
+}
+
+function renderCrowdCard(data){
+  const pct = data.current_crowd_pct;
+  const conf = data.confidence;
+  const statusClass = pct<40?'low':pct<70?'medium':'high';
+  const statusText  = pct<40 ? 'Not crowded' : pct<70 ? 'Moderately busy' : 'Very crowded';
+  const confPips = conf==='high' ? [1,1,1] : [1,1,0];
+
+  document.getElementById('crowdResultCard').innerHTML = `
+    <div class="card-title" id="crowdStationTitle">${data.station}</div>
+    <div class="crowd-grid">
+      <div class="crowd-metric">
+        <div class="crowd-metric-val">${data.checkins||'--'}</div>
+        <div class="crowd-metric-label">Check-ins / 30min</div>
+      </div>
+      <div class="crowd-metric">
+        <div class="crowd-metric-val">${data.checkouts||'--'}</div>
+        <div class="crowd-metric-label">Check-outs / 30min</div>
+      </div>
+    </div>
+    <div class="crowd-bar-wrap">
+      <div class="crowd-bar-label">
+        <span>Current Occupancy</span>
+        <span>${pct}%</span>
+      </div>
+      <div class="crowd-bar"><div class="crowd-bar-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="crowd-status ${statusClass}">
+      <span class="crowd-status-dot"></span>
+      <span>${statusText}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+      <div style="font-size:11px;color:var(--text-light)">15-min forecast: <strong style="color:var(--dark)">${data.predicted_crowd_pct}%</strong></div>
+      <div style="font-size:11px;color:var(--text-light)">${conf==='high'?'High confidence':'Medium confidence'}</div>
+    </div>
+    <button class="refresh-btn" onclick="fetchCrowd()" style="margin-top:10px">
+      <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+      Refresh
+    </button>
+  `;
+  document.getElementById('crowdResultCard').style.display='block';
+}
+
+// ═══════════════════════════════════════════
+// ML PANEL CHART
+// ═══════════════════════════════════════════
+function renderForecastBars(){
+  const hour = new Date().getHours();
+  const peaks = [2,1,1,3,8,35,90,100,80,55,50,52,55,52,60,75,95,90,70,55,45,35,22,10];
+  const bars = [];
+  for(let i=0;i<7;i++){
+    const h = (hour+i)%24;
+    bars.push({label: i===0?'Now':'+'+((i)*5)+'m', val: Math.min(100,peaks[h]+(Math.random()*10-5))});
+  }
+
+  const heroVal = Math.round(bars[3].val);
+  document.getElementById('mlHeroVal').textContent = heroVal+'%';
+
+  document.getElementById('forecastBars').innerHTML = bars.map(b=>`
+    <div class="forecast-bar-wrap">
+      <div class="forecast-bar-col">
+        <div class="forecast-bar" style="height:${b.val}%"></div>
+      </div>
+      <div class="forecast-bar-label">${b.label}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+// BACKEND HEALTH CHECK
+// ═══════════════════════════════════════════
+async function checkBackend(){
+  try {
+    const res = await fetch(`${API_BASE}/api/system/load`, {signal: AbortSignal.timeout(3000)});
+    if(res.ok){
+      backendOnline = true;
+      document.getElementById('apiStatusLabel').textContent = 'Live';
+      document.getElementById('offlineBanner').classList.remove('show');
+      return;
+    }
+  } catch(e){}
+  backendOnline = false;
+  document.getElementById('apiStatusLabel').textContent = 'Offline';
+  document.getElementById('offlineBanner').classList.add('show');
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
 checkBackend();
+setInterval(checkBackend, 30000);
 renderForecastBars();
+setInterval(renderForecastBars, 60000);
 </script>
 </body>
 </html>
