@@ -54,7 +54,9 @@ async def plan_route(from_station: str, to_station: str):
             "distance_km": route["distance_km"],
             "duration_min": route["duration_min"],
             "fare_inr": fare,
-            "lines": route["lines"]
+            "lines": route["lines"],
+            "fromLine": route["lines"][0]["name"] if route["lines"] else "",
+            "fromColor": route["lines"][0]["color"] if route["lines"] else "#0057A8"
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

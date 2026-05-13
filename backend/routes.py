@@ -39,6 +39,166 @@ LINE_COLOR_MAP = {
     "rapid":     "#FF7043",
 }
 
+# ─────────────────────────────────────────────
+# METRO STATIONS (official DMRC stations only)
+# ─────────────────────────────────────────────
+METRO_STATIONS = {
+    "Adarsh Nagar": "Yellow",
+    "Ajronda": "Violet",
+    "Akshardham": "Blue",
+    "Anand Vihar ISBT": "Blue",
+    "Arjan Garh": "Yellow",
+    "Arthala": "Red",
+    "Ashok Park Main": "Green",
+    "Ashok Nagar": "Pink",
+    "AIIMS": "Yellow",
+    "Azadpur": "Yellow",
+    "Badarpur Border": "Violet",
+    "Bahadurgarh City": "Green",
+    "Baljit Nagar": "Pink",
+    "Ballabhgarh": "Violet",
+    "Bata Chowk": "Violet",
+    "Botanical Garden": "Magenta",
+    "Brigadier Hoshiyar Singh": "Green",
+    "Central Secretariat": "Yellow",
+    "Chatterpur": "Yellow",
+    "Chawri Bazar": "Yellow",
+    "Civil Lines": "Yellow",
+    "Dabri Mor - Janakpuri South": "Magenta",
+    "Dashrathpuri": "Magenta",
+    "Delhi Aerocity": "Orange",
+    "Delhi Cantt": "Blue",
+    "Dilshad Garden": "Red",
+    "Durgabai Deshmukh South Campus": "Pink",
+    "Dwarka": "Blue",
+    "Dwarka Mor": "Blue",
+    "Dwarka Sector 10": "Blue",
+    "Dwarka Sector 11": "Blue",
+    "Dwarka Sector 12": "Blue",
+    "Dwarka Sector 13": "Blue",
+    "Dwarka Sector 14": "Blue",
+    "Dwarka Sector 21": "Blue",
+    "East Azad Nagar": "Pink",
+    "Escorts Mujesar": "Violet",
+    "ESI Hospital": "Green",
+    "Faridabad New Town": "Violet",
+    "Ghevra": "Green",
+    "GNIDA Office": "Aqua",
+    "Gokulpuri": "Pink",
+    "Govind Puri": "Violet",
+    "Greater Kailash": "Magenta",
+    "GTB Nagar": "Yellow",
+    "Hauz Khas": "Yellow",
+    "Hindon River": "Red",
+    "Huda City Centre": "Yellow",
+    "INA": "Yellow",
+    "Inderlok": "Green",
+    "Indira Gandhi International Airport": "Orange",
+    "IP Extension": "Pink",
+    "ITO": "Violet",
+    "Jahangirpuri": "Yellow",
+    "Jama Masjid": "Violet",
+    "Janakpuri East": "Magenta",
+    "Janakpuri West": "Magenta",
+    "Jasola Apollo": "Violet",
+    "Jasola Vihar Shaheen Bagh": "Magenta",
+    "Jhandewalan": "Yellow",
+    "Jhilmil": "Pink",
+    "Jonapur": "Magenta",
+    "Kali Bari Marg": "Pink",
+    "Kalkaji Mandir": "Violet",
+    "Kalindi Kunj": "Magenta",
+    "Kashmere Gate": "Violet",
+    "Keshav Puram": "Green",
+    "Khan Market": "Violet",
+    "Khyala": "Green Branch",
+    "Kirti Nagar": "Green",
+    "Krishna Nagar": "Pink",
+    "Lajpat Nagar": "Violet",
+    "Lal Quila": "Violet",
+    "Lado Sarai": "Yellow",
+    "Laxmi Nagar": "Blue",
+    "Lok Kalyan Marg": "Pink",
+    "Lok Nayak Hospital": "Pink",
+    "Majlis Park": "Pink",
+    "Malviya Nagar": "Yellow",
+    "Mandawali - West Vinod Nagar": "Pink",
+    "Mansarovar Park": "Red",
+    "Mandi House": "Violet",
+    "Maya Puri": "Green",
+    "Metro Bhawan": "Yellow",
+    "MG Road": "Yellow",
+    "Model Town": "Yellow",
+    "Mohan Estate": "Violet",
+    "Moti Nagar": "Blue",
+    "Mundka": "Green",
+    "Mundka Industrial Area": "Green",
+    "Najafgarh": "Grey",
+    "Nangloi": "Green",
+    "Nangloi Railway Station": "Green",
+    "Netaji Subhash Place": "Red",
+    "New Delhi": "Orange",
+    "Noida City Centre": "Blue",
+    "Noida Electronic City": "Blue",
+    "Noida Sector 15": "Blue",
+    "Noida Sector 16": "Blue",
+    "Noida Sector 18": "Blue",
+    "Noida Sector 34": "Blue",
+    "Noida Sector 52": "Blue",
+    "Noida Sector 62": "Blue",
+    "Okhla": "Violet",
+    "Okhla Bird Sanctuary": "Magenta",
+    "Okhla NSIC": "Magenta",
+    "Palam": "Magenta",
+    "Patel Chowk": "Yellow",
+    "Patel Nagar": "Green",
+    "Patparganj": "Blue",
+    "Pitampura": "Red",
+    "Preet Vihar": "Blue",
+    "Punjabi Bagh East": "Green",
+    "Punjabi Bagh West": "Pink",
+    "Pushp Vihar": "Yellow",
+    "Qutub Minar": "Yellow",
+    "Rajiv Chowk": "Yellow",
+    "Rajouri Garden": "Blue",
+    "Raja Nahar Singh (Ballabhgarh)": "Violet",
+    "Ram Krishna Ashram Marg": "Yellow",
+    "Rithala": "Red",
+    "RRTS Sarai Kale Khan": "Rapid",
+    "Sadar Bazar Cantonment": "Magenta",
+    "Saket": "Yellow",
+    "Samaypur Badli": "Yellow",
+    "Sarojini Nagar": "Pink",
+    "Sarita Vihar": "Violet",
+    "Sector 28 Faridabad": "Violet",
+    "Sector 31 Faridabad": "Violet",
+    "Shastri Nagar": "Yellow",
+    "Shastri Park": "Red",
+    "Shiv Vihar": "Pink",
+    "Sikandarpur": "Yellow",
+    "South Campus": "Yellow",
+    "Subhash Nagar": "Blue",
+    "Sunder Nagar": "Violet",
+    "Surajmal Stadium": "Pink",
+    "Tagore Garden": "Blue",
+    "Terminal 1 IGI Airport": "Magenta",
+    "Tikri Border": "Green",
+    "Tikri Kalan": "Green",
+    "Trilokpuri Sanjay Lake": "Pink",
+    "Tis Hazari": "Yellow",
+    "Udyog Bhawan": "Yellow",
+    "Uttam Nagar East": "Blue",
+    "Uttam Nagar West": "Blue",
+    "Vaishali": "Blue",
+    "Vasant Kunj Sector D": "Magenta",
+    "Vasant Vihar": "Magenta",
+    "Vidhan Sabha": "Yellow",
+    "Vinobapuri": "Violet",
+    "Vishwavidyalaya": "Yellow",
+    "Welcome": "Red",
+    "Yamuna Bank": "Blue"
+}
+
 
 # ─────────────────────────────────────────────
 # LOAD GTFS DATA (once at startup)
@@ -193,26 +353,34 @@ _G, _STOP_INFO, _NAME_TO_ID = _build_graph(_GTFS)
 print(f"[MetroCast] Graph ready: {_G.number_of_nodes()} stations, "
       f"{_G.number_of_edges()} edges")
 
+# ── Update stop_info with metro lines ─────────────────────────────
+for sid, info in _STOP_INFO.items():
+    name = info["name"]
+    if name in METRO_STATIONS:
+        _STOP_INFO[sid]["line"] = METRO_STATIONS[name]
+
 
 # ─────────────────────────────────────────────
 # PUBLIC HELPERS
 # ─────────────────────────────────────────────
 
 def list_all_stations() -> list[dict]:
-    """Returns all stations sorted alphabetically by name."""
-    return sorted(
-        [
-            {
+    """Returns all metro stations sorted alphabetically by name."""
+    stations = []
+    for sid, info in _STOP_INFO.items():
+        name = info["name"]
+        if name in METRO_STATIONS:
+            line = METRO_STATIONS[name]
+            color = LINE_COLOR_MAP.get(line.lower().replace(" branch", ""), "#888")
+            stations.append({
                 "id":   sid,
-                "name": info["name"],
-                "line": info["line"],
+                "name": name,
+                "line": line,
+                "color": color,
                 "lat":  info["lat"],
                 "lon":  info["lon"],
-            }
-            for sid, info in _STOP_INFO.items()
-        ],
-        key=lambda x: x["name"].lower(),
-    )
+            })
+    return sorted(stations, key=lambda x: x["name"].lower())
 
 
 def resolve_station(query: str) -> Optional[str]:
