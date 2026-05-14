@@ -415,7 +415,7 @@
 
     <!-- ═══ PLAN ROUTE PANEL ═══ -->
     <div class="panel active" id="panel-plan">
-      <div class="offline-banner" id="offlineBanner">Backend offline — showing demo data</div>
+
 
       <div class="card">
         <div class="card-title">Where are you going?</div>
@@ -673,33 +673,21 @@
         <div class="card-title">Tech Stack</div>
         <div class="tech-stack">
           <div class="tech-chip">
-            <div class="tech-chip-name">FastAPI</div>
-            <div class="tech-chip-role">Backend API</div>
-          </div>
-          <div class="tech-chip">
-            <div class="tech-chip-name">Python</div>
-            <div class="tech-chip-role">ML Engine</div>
-          </div>
-          <div class="tech-chip">
-            <div class="tech-chip-name">ARIMA</div>
-            <div class="tech-chip-role">Forecasting</div>
-          </div>
-          <div class="tech-chip">
-            <div class="tech-chip-name">GTFS</div>
-            <div class="tech-chip-role">Route Graph</div>
-          </div>
-          <div class="tech-chip">
-            <div class="tech-chip-name">Redis</div>
-            <div class="tech-chip-role">API Cache</div>
+            <div class="tech-chip-name">JavaScript</div>
+            <div class="tech-chip-role">Route Engine</div>
           </div>
           <div class="tech-chip">
             <div class="tech-chip-name">PWA</div>
-            <div class="tech-chip-role">Installable</div>
+            <div class="tech-chip-role">Mobile App</div>
           </div>
-        </div>
-        <div class="api-info">
-          <div class="api-info-title">TransportStack API</div>
-          <div class="api-info-url">https://delhi.transportstack.in/data-services/datadetails/4</div>
+          <div class="tech-chip">
+            <div class="tech-chip-name">Offline AI</div>
+            <div class="tech-chip-role">Crowd Forecast</div>
+          </div>
+          <div class="tech-chip">
+            <div class="tech-chip-name">GTFS</div>
+            <div class="tech-chip-role">Metro Graph</div>
+          </div>
         </div>
       </div>
 
@@ -725,10 +713,122 @@
 </div><!-- /shell -->
 
 <script>
-// ═══════════════════════════════════════════
-// CONFIG
-// ═══════════════════════════════════════════
-const API_BASE = 'http://127.0.0.1:8000';
+// ═══ metroData.js ═══════════════════════════
+const METRO_LINES = {
+  Blue: [
+    "Dwarka Sector 21","Dwarka Sector 8","Dwarka Sector 9","Dwarka Sector 10",
+    "Dwarka Sector 11","Dwarka Sector 12","Dwarka Sector 13","Dwarka Sector 14",
+    "Dwarka","Dwarka Mor","Nawada","Uttam Nagar West","Uttam Nagar East",
+    "Janakpuri West","Janakpuri East","Tilak Nagar","Subhash Nagar","Tagore Garden",
+    "Rajouri Garden","Ramesh Nagar","Moti Nagar","Kirti Nagar","Shadipur",
+    "Patel Nagar","Rajendra Place","Karol Bagh","Jhandewalan","RK Ashram Marg",
+    "Rajiv Chowk","Barakhamba Road","Mandi House","Supreme Court","Indraprastha",
+    "Yamuna Bank",
+    // Branch 1 → Noida Electronic City
+    "Akshardham","Mayur Vihar Phase 1","Mayur Vihar Extension","New Ashok Nagar",
+    "Noida Sector 15","Noida Sector 16","Noida Sector 18","Botanical Garden",
+    "Golf Course","Noida City Centre","Noida Sector 34","Noida Sector 52",
+    "Noida Sector 61","Noida Sector 59","Noida Sector 62","Noida Electronic City",
+    // Branch 2 → Vaishali
+    "Laxmi Nagar","Nirman Vihar","Preet Vihar","Karkardooma","Anand Vihar",
+    "Kaushambi","Vaishali"
+  ],
+  Yellow: [
+    "Samaypur Badli","Rohini Sector 18, 19","Haiderpur Badli Mor","Jahangirpuri",
+    "Adarsh Nagar","Azadpur","Model Town","GTB Nagar","Vishwavidyalaya",
+    "Vidhan Sabha","Civil Lines","Kashmere Gate","Chandni Chowk","Chawri Bazar",
+    "New Delhi","Rajiv Chowk","Patel Chowk","Central Secretariat","Udyog Bhawan",
+    "Lok Kalyan Marg","Jor Bagh","INA","AIIMS","Green Park","Hauz Khas",
+    "Malviya Nagar","Saket","Qutab Minar","Chhatarpur","Sultanpur","Ghitorni",
+    "Arjan Garh","Guru Dronacharya","Sikandarpur","MG Road","IFFCO Chowk",
+    "Huda City Centre"
+  ],
+  Red: [
+    "Rithala","Rohini West","Rohini East","Pitampura","Kohat Enclave","Netaji Subhash Place",
+    "Keshav Puram","Kanhaiya Nagar","Inderlok","Shastri Nagar","Pratap Nagar",
+    "Pul Bangash","Tis Hazari","Kashmere Gate","Shastri Park","Seelampur",
+    "Welcome","Shahdara","Mansarovar Park","Jhilmil","Dilshad Garden","Shaheed Nagar"
+  ],
+  Green: [
+    "Inderlok","Ashok Park Main","Punjabi Bagh","Shivaji Park","Madipur","Paschim Vihar East",
+    "Paschim Vihar West","Udyog Nagar","Peera Garhi","Nangloi","Nangloi Railway Station",
+    "Rajdhani Park","Mundka","Mundka Industrial Area","Ghevra","Tikri Kalan",
+    "Tikri Border","Pandit Shree Ram Sharma","Bahadurgarh City","Brigadier Hoshiar Singh"
+  ],
+  Violet: [
+    "Kashmere Gate","Lal Quila","Jama Masjid","Delhi Gate","ITO","Mandi House",
+    "Janpath","Central Secretariat","Khan Market","JLN Stadium","Jangpura",
+    "Lajpat Nagar","Moolchand","Kailash Colony","Nehru Place","Kalkaji Mandir",
+    "Govind Puri","Okhla","Jasola","Sarita Vihar","Mohan Estate","Tughlakabad",
+    "Badarpur Border","Sarai","NHPC Chowk","Mewala Maharajpur","Sector 28",
+    "Badkal Mor","Old Faridabad","Neelam Chowk Ajronda","Bata Chowk","Escorts Mujesar",
+    "Sant Surdas","Raja Nahar Singh"
+  ],
+  Magenta: [
+    "Janakpuri West","Dashrath Puri","Palam","Sadar Bazaar Cantonment","Terminal 1 IGI Airport",
+    "Shankar Vihar","Vasant Vihar","Munirka","RK Puram","IIT Delhi","Hauz Khas",
+    "Panchsheel Park","Chirag Delhi","Greater Kailash","Nehru Enclave","Kalkaji Mandir",
+    "Okhla NSIC","Sukhdev Vihar","Jamia Millia Islamia","Okhla Vihar","Jasola Vihar Shaheen Bagh",
+    "Kalindi Kunj","Botanical Garden"
+  ],
+  Pink: [
+    "Majlis Park","Azadpur","Shalimar Bagh","Netaji Subhash Place","Shakurpur",
+    "Punjabi Bagh West","ESI Hospital","Rajouri Garden","Maya Puri","Naraina Vihar",
+    "Delhi Cantt","Durgabai Deshmukh South Campus","Sir Vishweshwaraiah Moti Bagh",
+    "INA","South Extension","Lajpat Nagar","Vinobapuri","Ashram","Hazrat Nizamuddin",
+    "Mayur Vihar Phase 1","Mayur Vihar Pocket 1","Trilokpuri Sanjay Lake","East Vinod Nagar",
+    "Mandawali West Vinod Nagar","IP Extension","Anand Vihar","Karkardooma","Welcome",
+    "Shastri Park","Kashmere Gate"
+  ],
+  Orange: [
+    "New Delhi","Shivaji Stadium","Dhaula Kuan","Delhi Aerocity","IGI Airport",
+    "Dwarka Sector 21"
+  ]
+};
+
+const METRO_STATIONS = {};
+for (const line in METRO_LINES) {
+  METRO_LINES[line].forEach(station => { METRO_STATIONS[station] = line; });
+}
+
+// ═══ routeEngine.js ═════════════════════════
+const metroGraph = {};
+function addConnection(a, b) {
+  if (!metroGraph[a]) metroGraph[a] = [];
+  if (!metroGraph[b]) metroGraph[b] = [];
+  if (!metroGraph[a].includes(b)) metroGraph[a].push(b);
+  if (!metroGraph[b].includes(a)) metroGraph[b].push(a);
+}
+for (const line in METRO_LINES) {
+  const sts = METRO_LINES[line];
+  for (let i = 0; i < sts.length - 1; i++) addConnection(sts[i], sts[i+1]);
+}
+function findRoute(start, end) {
+  if (!metroGraph[start] || !metroGraph[end]) return null;
+  const queue = [[start]], visited = new Set();
+  while (queue.length) {
+    const path = queue.shift();
+    const station = path[path.length - 1];
+    if (station === end) return path;
+    if (!visited.has(station)) {
+      visited.add(station);
+      for (const n of metroGraph[station]) queue.push([...path, n]);
+    }
+  }
+  return null;
+}
+
+// ═══ crowdEngine.js ═════════════════════════
+const PEAK_STATIONS = ["Rajiv Chowk","Kashmere Gate","Central Secretariat","Hauz Khas","New Delhi","Mandi House"];
+function getCrowdLevel(station) {
+  const hour = new Date().getHours();
+  let base = 30;
+  if (hour >= 8  && hour <= 11) base += 30;
+  if (hour >= 17 && hour <= 20) base += 25;
+  if (PEAK_STATIONS.includes(station)) base += 20;
+  return Math.min(base + Math.floor(Math.random() * 15), 100);
+}
+function getCrowdLabel(p) { return p < 40 ? "Low" : p < 70 ? "Medium" : "High"; }
 
 // ═══════════════════════════════════════════
 // CORRECT DELHI METRO STATION LIST
@@ -740,166 +840,10 @@ const LINE_COLORS = {
   Aqua:'#06B6D4', Grey:'#9CA3AF', Rapid:'#B45309', 'Green Branch':'#3BAD4E'
 };
 
-const METRO_STATIONS = [
-  {name:"Adarsh Nagar",line:"Yellow"},
-  {name:"Ajronda",line:"Violet"},
-  {name:"Akshardham",line:"Blue"},
-  {name:"Anand Vihar ISBT",line:"Blue"},
-  {name:"Arjan Garh",line:"Yellow"},
-  {name:"Arthala",line:"Red"},
-  {name:"Ashok Park Main",line:"Green"},
-  {name:"Ashok Nagar",line:"Pink"},
-  {name:"AIIMS",line:"Yellow"},
-  {name:"Azadpur",line:"Yellow"},
-  {name:"Badarpur Border",line:"Violet"},
-  {name:"Bahadurgarh City",line:"Green"},
-  {name:"Baljit Nagar",line:"Pink"},
-  {name:"Ballabhgarh",line:"Violet"},
-  {name:"Bata Chowk",line:"Violet"},
-  {name:"Botanical Garden",line:"Magenta"},
-  {name:"Brigadier Hoshiyar Singh",line:"Green"},
-  {name:"Central Secretariat",line:"Yellow"},
-  {name:"Chatterpur",line:"Yellow"},
-  {name:"Chawri Bazar",line:"Yellow"},
-  {name:"Civil Lines",line:"Yellow"},
-  {name:"Dabri Mor - Janakpuri South",line:"Magenta"},
-  {name:"Dashrathpuri",line:"Magenta"},
-  {name:"Delhi Aerocity",line:"Orange"},
-  {name:"Delhi Cantt",line:"Blue"},
-  {name:"Dilshad Garden",line:"Red"},
-  {name:"Durgabai Deshmukh South Campus",line:"Pink"},
-  {name:"Dwarka",line:"Blue"},
-  {name:"Dwarka Mor",line:"Blue"},
-  {name:"Dwarka Sector 10",line:"Blue"},
-  {name:"Dwarka Sector 11",line:"Blue"},
-  {name:"Dwarka Sector 12",line:"Blue"},
-  {name:"Dwarka Sector 13",line:"Blue"},
-  {name:"Dwarka Sector 14",line:"Blue"},
-  {name:"Dwarka Sector 21",line:"Blue"},
-  {name:"East Azad Nagar",line:"Pink"},
-  {name:"Escorts Mujesar",line:"Violet"},
-  {name:"ESI Hospital",line:"Green"},
-  {name:"Faridabad New Town",line:"Violet"},
-  {name:"Ghevra",line:"Green"},
-  {name:"GNIDA Office",line:"Aqua"},
-  {name:"Gokulpuri",line:"Pink"},
-  {name:"Govind Puri",line:"Violet"},
-  {name:"Greater Kailash",line:"Magenta"},
-  {name:"GTB Nagar",line:"Yellow"},
-  {name:"Hauz Khas",line:"Yellow"},
-  {name:"Hindon River",line:"Red"},
-  {name:"Huda City Centre",line:"Yellow"},
-  {name:"INA",line:"Yellow"},
-  {name:"Inderlok",line:"Green"},
-  {name:"Indira Gandhi International Airport",line:"Orange"},
-  {name:"IP Extension",line:"Pink"},
-  {name:"ITO",line:"Violet"},
-  {name:"Jahangirpuri",line:"Yellow"},
-  {name:"Jama Masjid",line:"Violet"},
-  {name:"Janakpuri East",line:"Magenta"},
-  {name:"Janakpuri West",line:"Magenta"},
-  {name:"Jasola Apollo",line:"Violet"},
-  {name:"Jasola Vihar Shaheen Bagh",line:"Magenta"},
-  {name:"Jhandewalan",line:"Yellow"},
-  {name:"Jhilmil",line:"Pink"},
-  {name:"Jonapur",line:"Magenta"},
-  {name:"Kali Bari Marg",line:"Pink"},
-  {name:"Kalkaji Mandir",line:"Violet"},
-  {name:"Kalindi Kunj",line:"Magenta"},
-  {name:"Kashmere Gate",line:"Violet"},
-  {name:"Keshav Puram",line:"Green"},
-  {name:"Khan Market",line:"Violet"},
-  {name:"Khyala",line:"Green Branch"},
-  {name:"Kirti Nagar",line:"Green"},
-  {name:"Krishna Nagar",line:"Pink"},
-  {name:"Lajpat Nagar",line:"Violet"},
-  {name:"Lal Quila",line:"Violet"},
-  {name:"Lado Sarai",line:"Yellow"},
-  {name:"Laxmi Nagar",line:"Blue"},
-  {name:"Lok Kalyan Marg",line:"Pink"},
-  {name:"Lok Nayak Hospital",line:"Pink"},
-  {name:"Majlis Park",line:"Pink"},
-  {name:"Malviya Nagar",line:"Yellow"},
-  {name:"Mandawali - West Vinod Nagar",line:"Pink"},
-  {name:"Mansarovar Park",line:"Red"},
-  {name:"Mandi House",line:"Violet"},
-  {name:"Maya Puri",line:"Green"},
-  {name:"Metro Bhawan",line:"Yellow"},
-  {name:"MG Road",line:"Yellow"},
-  {name:"Model Town",line:"Yellow"},
-  {name:"Mohan Estate",line:"Violet"},
-  {name:"Moti Nagar",line:"Blue"},
-  {name:"Mundka",line:"Green"},
-  {name:"Mundka Industrial Area",line:"Green"},
-  {name:"Najafgarh",line:"Grey"},
-  {name:"Nangloi",line:"Green"},
-  {name:"Nangloi Railway Station",line:"Green"},
-  {name:"Netaji Subhash Place",line:"Red"},
-  {name:"New Delhi",line:"Orange"},
-  {name:"Noida City Centre",line:"Blue"},
-  {name:"Noida Electronic City",line:"Blue"},
-  {name:"Noida Sector 15",line:"Blue"},
-  {name:"Noida Sector 16",line:"Blue"},
-  {name:"Noida Sector 18",line:"Blue"},
-  {name:"Noida Sector 34",line:"Blue"},
-  {name:"Noida Sector 52",line:"Blue"},
-  {name:"Noida Sector 62",line:"Blue"},
-  {name:"Okhla",line:"Violet"},
-  {name:"Okhla Bird Sanctuary",line:"Magenta"},
-  {name:"Okhla NSIC",line:"Magenta"},
-  {name:"Palam",line:"Magenta"},
-  {name:"Patel Chowk",line:"Yellow"},
-  {name:"Patel Nagar",line:"Green"},
-  {name:"Patparganj",line:"Blue"},
-  {name:"Pitampura",line:"Red"},
-  {name:"Preet Vihar",line:"Blue"},
-  {name:"Punjabi Bagh East",line:"Green"},
-  {name:"Punjabi Bagh West",line:"Pink"},
-  {name:"Pushp Vihar",line:"Yellow"},
-  {name:"Qutub Minar",line:"Yellow"},
-  {name:"Rajiv Chowk",line:"Yellow"},
-  {name:"Rajouri Garden",line:"Blue"},
-  {name:"Raja Nahar Singh (Ballabhgarh)",line:"Violet"},
-  {name:"Ram Krishna Ashram Marg",line:"Yellow"},
-  {name:"Rithala",line:"Red"},
-  {name:"RRTS Sarai Kale Khan",line:"Rapid"},
-  {name:"Sadar Bazar Cantonment",line:"Magenta"},
-  {name:"Saket",line:"Yellow"},
-  {name:"Samaypur Badli",line:"Yellow"},
-  {name:"Sarojini Nagar",line:"Pink"},
-  {name:"Sarita Vihar",line:"Violet"},
-  {name:"Sector 28 Faridabad",line:"Violet"},
-  {name:"Sector 31 Faridabad",line:"Violet"},
-  {name:"Shastri Nagar",line:"Yellow"},
-  {name:"Shastri Park",line:"Red"},
-  {name:"Shiv Vihar",line:"Pink"},
-  {name:"Sikandarpur",line:"Yellow"},
-  {name:"South Campus",line:"Yellow"},
-  {name:"Subhash Nagar",line:"Blue"},
-  {name:"Sunder Nagar",line:"Violet"},
-  {name:"Surajmal Stadium",line:"Pink"},
-  {name:"Tagore Garden",line:"Blue"},
-  {name:"Terminal 1 IGI Airport",line:"Magenta"},
-  {name:"Tikri Border",line:"Green"},
-  {name:"Tikri Kalan",line:"Green"},
-  {name:"Trilokpuri Sanjay Lake",line:"Pink"},
-  {name:"Tis Hazari",line:"Yellow"},
-  {name:"Udyog Bhawan",line:"Yellow"},
-  {name:"Uttam Nagar East",line:"Blue"},
-  {name:"Uttam Nagar West",line:"Blue"},
-  {name:"Vaishali",line:"Blue"},
-  {name:"Vasant Kunj Sector D",line:"Magenta"},
-  {name:"Vasant Vihar",line:"Magenta"},
-  {name:"Vidhan Sabha",line:"Yellow"},
-  {name:"Vinobapuri",line:"Violet"},
-  {name:"Vishwavidyalaya",line:"Yellow"},
-  {name:"Welcome",line:"Red"},
-  {name:"Yamuna Bank",line:"Blue"}
-];
-
-// Initialize stations from backend if available, fallback to hardcoded list
-let STATIONS = METRO_STATIONS.map(s=>({...s, color: LINE_COLORS[s.line]||'#888'}))
- .sort((a,b)=>a.name.localeCompare(b.name));
+// Build STATIONS array from METRO_LINES (already declared above)
+let STATIONS = Object.entries(METRO_STATIONS)
+  .map(([name, line]) => ({ name, line, color: LINE_COLORS[line] || '#888' }))
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 // ═══════════════════════════════════════════
 // STATE
@@ -907,7 +851,6 @@ let STATIONS = METRO_STATIONS.map(s=>({...s, color: LINE_COLORS[s.line]||'#888'}
 let selectedFrom = null;
 let selectedTo   = null;
 let selectedCrowdStation = null;
-let backendOnline = false;
 
 // ═══════════════════════════════════════════
 // TAB SWITCHING
@@ -985,40 +928,48 @@ function swapStations(){
 // ═══════════════════════════════════════════
 // PLAN ROUTE
 // ═══════════════════════════════════════════
-async function planRoute(){
+function planRoute(){
   if(!selectedFrom || !selectedTo){
-    alert('Please select both stations.'); return;
+    alert('Please select both stations.');
+    return;
   }
+
   if(selectedFrom.name === selectedTo.name){
-    alert('Origin and destination are the same.'); return;
+    alert('Origin and destination are the same.');
+    return;
   }
 
   const btn = document.querySelector('.plan-btn');
+
   btn.textContent = 'Planning...';
   btn.disabled = true;
 
-  try {
-    let routeData;
-    if(backendOnline){
-      const res = await fetch(`${API_BASE}/api/route?from_station=${encodeURIComponent(selectedFrom.name)}&to_station=${encodeURIComponent(selectedTo.name)}`);
-      routeData = await res.json();
-    } else {
-      routeData = mockRoute(selectedFrom, selectedTo);
-    }
-    renderRoute(routeData);
-  } catch(e){
-    const routeData = mockRoute(selectedFrom, selectedTo);
-    renderRoute(routeData);
+  const path = findRoute(
+    selectedFrom.name,
+    selectedTo.name
+  );
+
+  if(!path){
+    alert('Route not found.');
+
+    btn.textContent = 'Plan My Route';
+    btn.disabled = false;
+
+    return;
   }
+
+  const routeData = mockRoute(selectedFrom, selectedTo, path);
 
   btn.textContent = 'Plan My Route';
   btn.disabled = false;
+
+  renderRoute(routeData);
 }
 
-function mockRoute(from, to){
-  const sameLineProbability = from.line === to.line;
-  const stops = Math.floor(Math.random()*14)+3;
+function mockRoute(from, to, path){
+  const stops = path ? path.length - 1 : Math.floor(Math.random()*14)+3;
   const km = (stops * 1.2).toFixed(1);
+  const sameLineProbability = from.line === to.line;
   const interchanges = sameLineProbability ? 0 : 1;
   const duration = Math.ceil(stops * 2.5 + interchanges * 5);
 
@@ -1125,25 +1076,23 @@ function renderCrowdForecast(routeData){
 // LIVE CROWD
 // ═══════════════════════════════════════════
 async function fetchCrowd(){
-  if(!selectedCrowdStation){ alert('Please select a station.'); return; }
-  const card = document.getElementById('crowdResultCard');
-  card.style.display='block';
-  card.innerHTML='<div class="loading-row"><div class="spinner"></div> Fetching live data...</div>';
-
-  try {
-    let data;
-    if(backendOnline){
-      const res = await fetch(`${API_BASE}/api/crowd/predict?station=${encodeURIComponent(selectedCrowdStation.name)}&line=${encodeURIComponent(selectedCrowdStation.line)}`);
-      data = await res.json();
-    } else {
-      await new Promise(r=>setTimeout(r,800));
-      data = mockCrowdData(selectedCrowdStation);
-    }
-    renderCrowdCard(data);
-  } catch(e){
-    const data = mockCrowdData(selectedCrowdStation);
-    renderCrowdCard(data);
+  if(!selectedCrowdStation){
+    alert('Please select a station.');
+    return;
   }
+
+  const card = document.getElementById('crowdResultCard');
+
+  card.style.display='block';
+
+  card.innerHTML =
+    '<div class="loading-row"><div class="spinner"></div> Calculating crowd.</div>';
+
+  await new Promise(r=>setTimeout(r,500));
+
+  const data = mockCrowdData(selectedCrowdStation);
+
+  renderCrowdCard(data);
 }
 
 function mockCrowdData(station){
@@ -1229,29 +1178,11 @@ function renderForecastBars(){
     </div>`).join('');
 }
 
-// ═══════════════════════════════════════════
-// BACKEND HEALTH CHECK
-// ═══════════════════════════════════════════
-async function checkBackend(){
-  try {
-    const res = await fetch(`${API_BASE}/api/system/load`, {signal: AbortSignal.timeout(3000)});
-    if(res.ok){
-      backendOnline = true;
-      document.getElementById('apiStatusLabel').textContent = 'Live';
-      document.getElementById('offlineBanner').classList.remove('show');
-      return;
-    }
-  } catch(e){}
-  backendOnline = false;
-  document.getElementById('apiStatusLabel').textContent = 'Offline';
-  document.getElementById('offlineBanner').classList.add('show');
-}
 
 // ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
-checkBackend();
-setInterval(checkBackend, 30000);
+document.getElementById('apiStatusLabel').textContent = 'Local';
 renderForecastBars();
 setInterval(renderForecastBars, 60000);
 </script>
